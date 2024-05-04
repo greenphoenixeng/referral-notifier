@@ -1,5 +1,4 @@
 import InputField from "@/components/ui/inputField"
-import Container from "@/layouts/Container"
 import React from "react"
 import {
   Select,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import TestButton from "@/components/TestButton"
+import Card from "@/components/Card"
 
 export const metadata = {
   title: "Track Your Referrals",
@@ -21,15 +21,18 @@ export const metadata = {
 const page = () => {
   return (
     <main className="w-full">
-      <Container>
-        <div className="w-full h-screen grid grid-cols-12 overflow-hidden p-10 divide-x">
-          <div className="col-span-6 px-20 flex flex-col gap-3 h-full overflow-scroll">
+      <div className="w-full grid grid-cols-12 gap-4">
+        <div className="col-span-12">
+          <Card>
             <InputField
               label="What do you want to track?"
               placeholder="Enter what do you want to track?"
               icon="TrendingUp"
             />
-
+          </Card>
+        </div>
+        <div className="col-span-6">
+          <Card>
             <h1 className="text-base text-slate-800 font-semibold mb-1">
               Where are they looking?
             </h1>
@@ -69,7 +72,10 @@ const page = () => {
                 </SelectGroup>
               </SelectContent>
             </Select>
-
+          </Card>
+        </div>
+        <div className="col-span-6">
+          <Card>
             <InputField
               type="text"
               icon="User"
@@ -88,36 +94,24 @@ const page = () => {
               label="Your Phone"
               placeholder="what is your phone number?"
             />
-
-            <div className="flex items-center space-x-2 select-none">
-              <Checkbox id="terms" />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium text-slate-600 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                I agree to terms
-              </label>
-            </div>
-            {/* <button className="mt-1 w-full text-base bg-primary-blue rounded-md text-white px-4 py-3 font-semibold transition-all hover:opacity-90 ">
-              Submit
-            </button> */}
-            <TestButton redirect="/add-feed" />
-          </div>
-          <div className="col-span-6 px-10">
-            <h1 className="text-2xl font-semibold text-primary-blue mb-3">
-              Track Your Referrals for free
-            </h1>
-
-            <div className="flex flex-col gap-3 text-sm text-slate-600">
-              <p>Marketing info..</p>
-              <p>Track the status fo your referral</p>
-              <p>Details</p>
-              <p>Upcoming functionality</p>
-              <p>Beta details</p>
-            </div>
-          </div>
+          </Card>
         </div>
-      </Container>
+        <div className="col-span-6">
+          <div className="flex items-center space-x-2 select-none mb-3">
+            <Checkbox id="terms" />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium text-slate-600 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              I agree to terms
+            </label>
+          </div>
+          {/* <button className="mt-1 w-full text-base bg-primary-blue rounded-md text-white px-4 py-3 font-semibold transition-all hover:opacity-90 ">
+            Submit
+          </button> */}
+          <TestButton redirect="/add-feed" />
+        </div>
+      </div>
     </main>
   )
 }

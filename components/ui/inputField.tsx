@@ -25,7 +25,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             type={show ? "text" : type}
             className={cn(
-              "flex w-full text-sm bg-white pl-4 pr-4 py-[14px] text-gray-600 border border-border rounded-md outline-none focus:border-brand focus:shadow-input disabled:bg-gray-100 read-only:focus:border-border read-only:bg-gray-100 transition-all",
+              "flex w-full text-sm bg-white pl-4 pr-4 py-[14px] text-gray-600 border border-border rounded-md outline-none focus:border-primary-blue focus:shadow-input disabled:bg-gray-100 read-only:focus:border-primary-blue read-only:bg-gray-100 transition-all",
               className,
               {
                 "pl-10": icon,

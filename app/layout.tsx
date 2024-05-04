@@ -2,6 +2,9 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { AOSInit } from "@/components/Aos"
+import Header from "@/components/Header"
+import Container from "@/layouts/Container"
+import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,7 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AOSInit />
-      <body className={inter.className}>{children}</body>
+      <body className={cn(inter.className, "w-full h-screen bg-slate-50 flex flex-col p-10")}>
+        <Container>
+          <Header />
+          {children}
+        </Container>
+      </body>
     </html>
   )
 }
