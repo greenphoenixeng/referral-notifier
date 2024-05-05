@@ -20,9 +20,9 @@ export const metadata = {
 
 const page = () => {
   return (
-    <main className="w-full">
-      <div className="w-full grid grid-cols-12 gap-4">
-        <div className="col-span-12">
+    <main className="w-full pb-10 md:pb-0">
+      <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div className="col-span-1 md:col-span-12">
           <Card>
             <InputField
               label="What do you want to track?"
@@ -31,7 +31,7 @@ const page = () => {
             />
           </Card>
         </div>
-        <div className="col-span-6">
+        <div className="col-span-1 md:col-span-6">
           <Card>
             <h1 className="text-base text-slate-800 font-semibold mb-1">
               Where are they looking?
@@ -74,7 +74,7 @@ const page = () => {
             </Select>
           </Card>
         </div>
-        <div className="col-span-6">
+        <div className="col-span-1 md:col-span-6">
           <Card>
             <InputField
               type="text"
@@ -96,7 +96,7 @@ const page = () => {
             />
           </Card>
         </div>
-        <div className="col-span-6">
+        <div className="col-span-1 md:col-span-6">
           <div className="flex items-center space-x-2 select-none mb-3">
             <Checkbox id="terms" />
             <label

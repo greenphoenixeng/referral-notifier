@@ -18,7 +18,7 @@ const Header = () => {
   if (hideHeader) return null
 
   return (
-    <header className="mb-8">
+    <header className="py-10 pb-7">
       <h1 className="text-2xl text-center font-semibold text-primary-blue mb-3">
         Track Your Referrals for free
       </h1>

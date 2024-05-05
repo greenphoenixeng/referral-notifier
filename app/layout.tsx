@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AOSInit />
-      <body className={cn(inter.className, "w-full h-screen bg-slate-50 flex flex-col p-10")}>
+      <body className={cn(inter.className, "w-full bg-slate-50")}>
         <Container>
           <Header />
           {children}
