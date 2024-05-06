@@ -5,6 +5,7 @@ import { AOSInit } from "@/components/Aos"
 import Header from "@/components/Header"
 import Container from "@/layouts/Container"
 import { cn } from "@/lib/utils"
+import { AppProvider } from "@/context/AppContext"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,10 +26,12 @@ export default function RootLayout({
     <html lang="en">
       <AOSInit />
       <body className={cn(inter.className, "w-full bg-slate-50")}>
-        <Container>
-          <Header />
-          {children}
-        </Container>
+        <AppProvider>
+          <Container>
+            <Header />
+            {children}
+          </Container>
+        </AppProvider>
       </body>
     </html>
   )
