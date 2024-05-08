@@ -2,11 +2,9 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { AOSInit } from "@/components/Aos"
-import Header from "@/components/Header"
 import Container from "@/layouts/Container"
 import { cn } from "@/lib/utils"
-import { AppProvider } from "@/context/AppContext"
-
+import { Toaster } from "react-hot-toast"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -26,12 +24,12 @@ export default function RootLayout({
     <html lang="en">
       <AOSInit />
       <body className={cn(inter.className, "w-full bg-slate-50")}>
-        <AppProvider>
-          <Container>
-            <Header />
-            {children}
-          </Container>
-        </AppProvider>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          containerClassName="text-sm text-slate-600"
+        />
+        <Container>{children}</Container>
       </body>
     </html>
   )

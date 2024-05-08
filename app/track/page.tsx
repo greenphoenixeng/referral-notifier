@@ -1,5 +1,6 @@
 import React from "react"
 import TrackForm from "./TrackForm"
+import Header from "@/components/Header"
 
 export const metadata = {
   title: "Track Your Referrals",
@@ -8,9 +9,12 @@ export const metadata = {
 
 const page = () => {
   return (
-    <main className="w-full pb-10 md:pb-0">
-      <TrackForm />
-    </main>
+    <>
+      <Header />
+      <main className="w-full pb-10 md:pb-0">
+        <TrackForm />
+      </main>
+    </>
   )
 }
 

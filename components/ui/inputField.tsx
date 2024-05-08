@@ -1,7 +1,7 @@
 "use client"
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { EyeIcon, EyeOff, LucideIcon, LucideProps, User, icons } from "lucide-react"
+import { EyeIcon, EyeOff, icons } from "lucide-react"
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -14,7 +14,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputProps>(
     const LucideIcon = icons[icon ? icon : "User"]
     const [show, setShow] = React.useState(false)
     return (
-      <div className={cn(`relative select-none`, className)}>
+      <div className={cn(`relative w-full select-none`, className)}>
         {label && (
           <label className="text-[14px] capitalize font-medium text-gray-700 mb-[6px] block">
             {label}

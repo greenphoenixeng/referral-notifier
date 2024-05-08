@@ -1,27 +1,12 @@
-"use client"
-import React, { useLayoutEffect, useState } from "react"
-import { usePathname, useRouter } from "next/navigation"
+import React from "react"
 
-const Header = () => {
-  const { push } = useRouter()
-  const pathname = usePathname()
-  const [hideHeader, setHideHeader] = useState<boolean>(true)
-
-  useLayoutEffect(() => {
-    if (pathname === "/login") {
-      setHideHeader(true)
-    } else {
-      setHideHeader(false)
-    }
-  }, [pathname])
-
-  if (hideHeader) return null
-
+const Header = async () => {
   return (
-    <header className="py-10 pb-7">
+    <header className="relative flex flex-col items-center justify-center py-10 pb-7">
       <h1 className="text-2xl text-center font-semibold text-primary-blue mb-3">
         Track Your Referrals for free
       </h1>
+      <p className="text-center text-slate-600">Track your referrals and earn money</p>
     </header>
   )
 }

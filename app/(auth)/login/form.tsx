@@ -4,7 +4,6 @@ import InputField from "@/components/ui/inputField"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 import axios from "axios"
-
 const Form = () => {
   const { push } = useRouter()
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -19,7 +18,7 @@ const Form = () => {
       setLoading(true)
       const { data } = await axios.post("/api/login", formData)
       if (data.success) {
-        push("/track")
+        push("/add-feed")
         return
       }
       setError(data.message)
@@ -62,7 +61,10 @@ const Form = () => {
         placeholder="Enter password"
         type="password"
       />
-      <button className="mt-1 text-base text-center flex justify-center items-center bg-primary-yellow rounded-md text-white px-4 py-3 font-semibold transition-all hover:opacity-90">
+      <button
+        type="submit"
+        className="mt-1 text-base text-center flex justify-center items-center bg-primary-yellow rounded-md text-white px-4 py-3 font-semibold transition-all hover:opacity-90"
+      >
         {loading ? <Loader2 size={24} className="animate-spin" /> : "Login"}
       </button>
       {error && <p className="text-red-500 text-sm">{error}</p>}
