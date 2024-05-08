@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   Select,
   SelectContent,
@@ -9,11 +9,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import Uploader from "@/components/Uploader"
 import TestButton from "@/components/TestButton"
 import Card from "@/components/Card"
-
+import CSVUploader from "@/components/CSVUploader"
+import axios from "axios"
+interface Options {
+  id: number
+  name: string
+  value: number
+}
 const FeedFrom = () => {
+  const [csvData, setCSVData] = useState<any[] | null>(null)
+  const [countyOptions, setCountyOptions] = useState<Options[]>([])
+  const fetchCountyOptions = async () => {
+    try {
+      const { data: counties } = await axios.get("/api/counties")
+      setCountyOptions(counties.data)
+    } catch (error) {
+      console.log("Error:", error)
+    }
+  }
+
+  const handleUpload = (data: any[] | null) => {
+    setCSVData(data)
+  }
+
+  useEffect(() => {
+    fetchCountyOptions()
+  }, [])
+
   return (
     <div className="w-full grid grid-cols-12 gap-4">
       <div className="col-span-12">
@@ -25,14 +49,17 @@ const FeedFrom = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Feeds</SelectLabel>
-                <SelectItem value="test">test</SelectItem>
-                <SelectItem value="test">test</SelectItem>
+                <SelectLabel>Counties</SelectLabel>
+
+                {countyOptions.map((county) => (
+                  <SelectItem key={county.value} value={county.value.toString()}>
+                    {county.name}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
-
-          <Uploader id="file" />
+          <CSVUploader onUpload={handleUpload} />
         </Card>
       </div>
       <div className="col-span-12">
