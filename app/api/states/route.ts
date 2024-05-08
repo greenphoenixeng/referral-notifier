@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server"
-import { createClient } from "@/utils/supabase/server"
+import { NextResponse } from "next/server";
+import supabaseAdmin from "@/utils/supabase-admin";
 
 export async function GET() {
-  const supabase = createClient()
   try {
-    let { data: states, error } = await supabase.from("state").select("*")
+    let { data: states, error } = await supabaseAdmin.from("state").select("*");
     if (error) {
-      return NextResponse.json({ success: false, error: error, message: "Something went wrong" })
+      return NextResponse.json({
+        success: false,
+        error: error,
+        message: "Something went wrong",
+      });
     }
 
     const filterData = states?.map((state) => {
@@ -14,14 +17,17 @@ export async function GET() {
         id: state.id,
         name: state.name,
         value: state.id,
-      }
-    })
+      };
+    });
 
-    return NextResponse.json({ success: true, data: filterData }, { status: 200 })
+    return NextResponse.json(
+      { success: true, data: filterData },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { success: false, error: error, message: "Something went wrong" },
       { status: 500 }
-    )
+    );
   }
 }

@@ -1,6 +1,6 @@
-"use client"
-import InputField from "@/components/ui/inputField"
-import React, { useEffect, useState } from "react"
+"use client";
+import InputField from "@/components/ui/inputField";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -9,17 +9,18 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import TestButton from "@/components/TestButton"
-import Card from "@/components/Card"
-import axios from "axios"
-import toast from "react-hot-toast"
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import TestButton from "@/components/TestButton";
+import Card from "@/components/Card";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { SearchCheck } from "lucide-react";
 
 interface Options {
-  id: number
-  name: string
-  value: number
+  id: number;
+  name: string;
+  value: number;
 }
 
 const TrackForm = () => {
@@ -33,42 +34,43 @@ const TrackForm = () => {
     email: "",
     phone: "",
     agree: false,
-  })
-  const [stateOptions, setStateOptions] = useState<Options[]>([])
-  const [countyOptions, setCountyOptions] = useState<Options[]>([])
-  const [cityOptions, setCityOptions] = useState<Options[]>([])
-  const [loading, setLoading] = useState(false)
+  });
+  const [stateOptions, setStateOptions] = useState<Options[]>([]);
+  const [countyOptions, setCountyOptions] = useState<Options[]>([]);
+  const [cityOptions, setCityOptions] = useState<Options[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
-    const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const isAllFieldsFilled = Object.values(form).every((val) => val !== "") && form.agree
+  const isAllFieldsFilled =
+    Object.values(form).every((val) => val !== "") && form.agree;
 
   const fetchOptions = async () => {
     try {
-      const { data: states } = await axios.get("/api/states")
-      const { data: counties } = await axios.get("/api/counties")
-      const { data: cities } = await axios.get("/api/cities")
-      setStateOptions(states.data)
-      setCityOptions(cities.data)
-      setCountyOptions(counties.data)
+      const { data: states } = await axios.get("/api/states");
+      const { data: counties } = await axios.get("/api/counties");
+      const { data: cities } = await axios.get("/api/cities");
+      setStateOptions(states.data);
+      setCityOptions(cities.data);
+      setCountyOptions(counties.data);
     } catch (error) {
-      console.log("Error:", error)
+      console.log("Error:", error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchOptions()
-  }, [])
+    fetchOptions();
+  }, []);
 
   const handleSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const { data } = await axios.post("/api/track", form)
+      const { data } = await axios.post("/api/track", form);
       if (data.success) {
-        toast.success("Reference submitted successfully")
+        toast.success("Reference submitted successfully");
         setForm({
           who: "",
           state: "",
@@ -79,14 +81,14 @@ const TrackForm = () => {
           email: "",
           phone: "",
           agree: false,
-        })
+        });
       }
     } catch (error) {
-      console.log("Error:", error)
+      console.log("Error:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -105,10 +107,14 @@ const TrackForm = () => {
       </div>
       <div className="col-span-1 md:col-span-6">
         <Card>
-          <h1 className="text-base text-slate-800 font-semibold mb-1">Where are they looking?</h1>
+          <h1 className="text-base text-slate-800 font-semibold mb-1">
+            Where are they looking?
+          </h1>
           <Select
             value={form.state}
-            onValueChange={(value) => setForm((prev) => ({ ...prev, state: value }))}
+            onValueChange={(value) =>
+              setForm((prev) => ({ ...prev, state: value }))
+            }
           >
             <SelectTrigger label="State">
               <SelectValue placeholder="Select a state" />
@@ -126,7 +132,9 @@ const TrackForm = () => {
           </Select>
           <Select
             value={form.county}
-            onValueChange={(value) => setForm((prev) => ({ ...prev, county: value }))}
+            onValueChange={(value) =>
+              setForm((prev) => ({ ...prev, county: value }))
+            }
           >
             <SelectTrigger label="County">
               <SelectValue placeholder="Select a county" />
@@ -135,7 +143,10 @@ const TrackForm = () => {
               <SelectGroup>
                 <SelectLabel>Counties</SelectLabel>
                 {countyOptions.map((county) => (
-                  <SelectItem key={county.value} value={county.value.toString()}>
+                  <SelectItem
+                    key={county.value}
+                    value={county.value.toString()}
+                  >
                     {county.name}
                   </SelectItem>
                 ))}
@@ -144,7 +155,9 @@ const TrackForm = () => {
           </Select>
           <Select
             value={form.city}
-            onValueChange={(value) => setForm((prev) => ({ ...prev, city: value }))}
+            onValueChange={(value) =>
+              setForm((prev) => ({ ...prev, city: value }))
+            }
           >
             <SelectTrigger label="Cities/Parishes">
               <SelectValue placeholder="Select a city" />
@@ -210,7 +223,9 @@ const TrackForm = () => {
         <div className="flex items-center space-x-2 select-none mb-3">
           <Checkbox
             checked={form.agree}
-            onCheckedChange={(value) => setForm({ ...form, agree: Boolean(value) })}
+            onCheckedChange={(value) =>
+              setForm({ ...form, agree: Boolean(value) })
+            }
             name="agree"
             id="terms"
           />
@@ -230,7 +245,7 @@ const TrackForm = () => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TrackForm
+export default TrackForm;

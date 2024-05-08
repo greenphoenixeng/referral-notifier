@@ -1,23 +1,27 @@
-import { NextResponse } from "next/server"
-import { createClient } from "@/utils/supabase/server"
+import { NextResponse } from "next/server";
+import supabaseAdmin from "@/utils/supabase-admin";
 
 export async function GET() {
-  const supabase = createClient()
   try {
-    let { data: counties, error } = await supabase.from("county").select("*")
+    let { data: counties, error } = await supabaseAdmin
+      .from("county")
+      .select("*");
     const filterData = counties?.map((county) => {
       return {
         id: county.id,
         name: county.name,
         value: county.id,
-      }
-    })
+      };
+    });
 
-    return NextResponse.json({ success: true, data: filterData }, { status: 200 })
+    return NextResponse.json(
+      { success: true, data: filterData },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { success: false, error: error, message: "Something went wrong" },
       { status: 500 }
-    )
+    );
   }
 }

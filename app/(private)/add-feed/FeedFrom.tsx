@@ -1,5 +1,5 @@
-"use client"
-import React, { useEffect, useState } from "react"
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -8,42 +8,130 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import TestButton from "@/components/TestButton"
-import Card from "@/components/Card"
-import CSVUploader from "@/components/CSVUploader"
-import axios from "axios"
+} from "@/components/ui/select";
+import TestButton from "@/components/TestButton";
+import Card from "@/components/Card";
+import CSVUploader from "@/components/CSVUploader";
+import axios from "axios";
+import Loader from "@/components/loader";
+import { useRouter } from "next/navigation";
+import { SearchCheck } from "lucide-react";
+import Link from "next/link";
+import toast from "react-hot-toast";
+
 interface Options {
-  id: number
-  name: string
-  value: number
+  id: number;
+  name: string;
+  value: number;
 }
 const FeedFrom = () => {
-  const [csvData, setCSVData] = useState<any[] | null>(null)
-  const [countyOptions, setCountyOptions] = useState<Options[]>([])
+  const { push } = useRouter();
+
+  const [loading, setLoading] = useState(false);
+  const [selectedCountyId, setSelectedCountyId] = useState("");
+  const [result, setResult] = useState<any>(null);
+
+  const [csvData, setCSVData] = useState<any[] | null>(null);
+  const [countyOptions, setCountyOptions] = useState<Options[]>([]);
+
   const fetchCountyOptions = async () => {
     try {
-      const { data: counties } = await axios.get("/api/counties")
-      setCountyOptions(counties.data)
+      const { data: counties } = await axios.get("/api/counties");
+      setCountyOptions(counties.data);
     } catch (error) {
-      console.log("Error:", error)
+      console.log("Error:", error);
     }
-  }
+  };
 
   const handleUpload = (data: any[] | null) => {
-    setCSVData(data)
-  }
+    setCSVData(data);
+  };
+
+  const handleSubmit = async () => {
+    const { data } = await axios.post("/api/feed/upload", {
+      county_id: selectedCountyId,
+      transactions: csvData,
+    });
+
+    setLoading(false);
+
+    if (data?.data?.uploaded !== undefined) {
+      setResult(data.data);
+    } else {
+      toast.error("Something went wrong!");
+    }
+  };
 
   useEffect(() => {
-    fetchCountyOptions()
-  }, [])
+    if (loading) {
+      handleSubmit();
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    fetchCountyOptions();
+  }, []);
+
+  if (result?.uploaded !== undefined) {
+    return (
+      <main className="w-full h-[70vh] flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center w-[300px] md:w-[450px] text-center">
+          <div className="mb-4" data-aos="zoom-in-up">
+            <SearchCheck size={60} className="text-primary-blue" />
+          </div>
+          <h1
+            className="text-primary-blue font-semibold text-lg mb-4"
+            data-aos="zoom-in-up"
+          >
+            {countyOptions.find((c) => +selectedCountyId === c.id)?.name} County
+            Feed Updated
+          </h1>
+          <div className="flex flex-col gap-1 text-slate-600">
+            <p data-aos="zoom-in-up">
+              <span className="font-semibold text-primary-blue">
+                {result.uploaded}
+              </span>{" "}
+              Records uploaded
+            </p>
+            <p data-aos="zoom-in-up">
+              <span className="font-semibold text-primary-blue">
+                {result.updated}
+              </span>{" "}
+              Records updated
+            </p>
+            <p data-aos="zoom-in-up">
+              <span className="font-semibold text-primary-blue">
+                {result.matched}
+              </span>{" "}
+              Matches Found
+            </p>
+          </div>
+          <button
+            data-aos="fade-up"
+            data-aos-delay="600"
+            data-aos-duration="1000"
+            className="px-4 py-2 mt-10 text-white bg-primary-blue transition-all rounded-md"
+            onClick={() => {
+              setResult(null);
+              setSelectedCountyId("");
+              setCSVData([]);
+            }}
+          >
+            Upload More
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <div className="w-full grid grid-cols-12 gap-4">
       <div className="col-span-12">
         <Card>
-          <h1 className="text-base text-slate-800 font-semibold -mb-1.5">Add data feed</h1>
-          <Select>
+          <h1 className="text-base text-slate-800 font-semibold -mb-1.5">
+            Add data feed
+          </h1>
+          <Select onValueChange={setSelectedCountyId}>
             <SelectTrigger className="mb-2">
               <SelectValue placeholder="Which feed do you want to update?" />
             </SelectTrigger>
@@ -52,7 +140,10 @@ const FeedFrom = () => {
                 <SelectLabel>Counties</SelectLabel>
 
                 {countyOptions.map((county) => (
-                  <SelectItem key={county.value} value={county.value.toString()}>
+                  <SelectItem
+                    key={county.value}
+                    value={county.value.toString()}
+                  >
                     {county.name}
                   </SelectItem>
                 ))}
@@ -63,13 +154,19 @@ const FeedFrom = () => {
         </Card>
       </div>
       <div className="col-span-12">
-        {/* <button className="mt-1 text-base bg-primary-blue rounded-md text-white px-4 py-3 font-semibold transition-all hover:opacity-90 ">
-//           Sumit
-//         </button> */}
-        <TestButton redirect="/success" disabled />
+        <button
+          className="mt-1 w-full text-base bg-primary-blue rounded-md text-white px-4 py-3 font-semibold transition-all hover:opacity-90 disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-slate-400"
+          onClick={() => setLoading(true)}
+          disabled={
+            loading || !csvData?.length || !selectedCountyId?.toString()?.length
+          }
+        >
+          {loading ? "Submit..." : "Submit"}
+        </button>
+        {loading && <Loader />}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FeedFrom
+export default FeedFrom;
