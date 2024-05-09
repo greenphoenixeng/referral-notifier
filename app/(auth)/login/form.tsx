@@ -1,47 +1,48 @@
-"use client"
-import React from "react"
-import InputField from "@/components/ui/inputField"
-import { useRouter } from "next/navigation"
-import { Loader2 } from "lucide-react"
-import axios from "axios"
+"use client";
+import React from "react";
+import InputField from "@/components/ui/inputField";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import axios from "axios";
+
 const Form = () => {
-  const { push } = useRouter()
-  const [loading, setLoading] = React.useState<boolean>(false)
+  const { push } = useRouter();
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [formData, setFormData] = React.useState({
     email: "admin@admin.com",
     password: "admin",
-  })
-  const [error, setError] = React.useState<string>("")
+  });
+  const [error, setError] = React.useState<string>("");
 
   const userLogin = async () => {
     try {
-      setLoading(true)
-      const { data } = await axios.post("/api/login", formData)
+      setLoading(true);
+      const { data } = await axios.post("/api/login", formData);
       if (data.success) {
-        push("/add-feed")
-        return
+        push("/add-feed");
+        return;
       }
-      setError(data.message)
+      setError(data.message);
     } catch (error) {
-      console.log("Error:", error)
+      console.log("Error:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (formData.email === "" || formData.password === "") {
-      setError("Email and Password are required")
-      return
+      setError("Email and Password are required");
+      return;
     }
-    userLogin()
-  }
+    userLogin();
+  };
 
   const handleChange = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
@@ -69,7 +70,7 @@ const Form = () => {
       </button>
       {error && <p className="text-red-500 text-sm">{error}</p>}
     </form>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;

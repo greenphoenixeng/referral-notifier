@@ -1,5 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import CSVUploader from "@/components/CSVUploader";
+import Card from "@/components/Card";
+import Loader from "@/components/loader";
 import {
   Select,
   SelectContent,
@@ -9,14 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import TestButton from "@/components/TestButton";
-import Card from "@/components/Card";
-import CSVUploader from "@/components/CSVUploader";
 import axios from "axios";
-import Loader from "@/components/loader";
-import { useRouter } from "next/navigation";
 import { SearchCheck } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface Options {
@@ -24,7 +22,7 @@ interface Options {
   name: string;
   value: number;
 }
-const FeedFrom = () => {
+const FeedForm = () => {
   const { push } = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -169,4 +167,4 @@ const FeedFrom = () => {
   );
 };
 
-export default FeedFrom;
+export default FeedForm;

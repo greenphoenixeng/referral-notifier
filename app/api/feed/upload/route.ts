@@ -1,17 +1,13 @@
-import { serialize } from "cookie";
-import { NextResponse } from "next/server";
-import { sign } from "jsonwebtoken";
 import supabaseAdmin from "@/utils/supabase-admin";
+import { NextResponse } from "next/server";
 
 type RequestBody = {
   transactions: any[];
   county_id: string;
 };
 
-const MAX_AGE = 60 * 60 * 24 * 30;
-
 export async function POST(request: Request) {
-  const { transactions, county_id }: RequestBody = await request.json();
+  const { transactions }: RequestBody = await request.json();
   try {
     let data = { uploaded: 0, updated: 0, matched: 0 };
 
@@ -25,20 +21,13 @@ export async function POST(request: Request) {
     data.updated = updatedRecords?.data?.length ?? 0;
     data.uploaded = transactions?.length - (updatedRecords?.data?.length ?? 0);
 
-    let insertResp = await supabaseAdmin
-      .from("sales_transaction")
-      .upsert(transactions?.map((t) => ({ ...t, County: county_id })));
+    await supabaseAdmin.from("sales_transaction").upsert(transactions);
 
-    let referalsResp = await supabaseAdmin
-      .from("referral")
-      .select("*")
-      .match({ county_id });
+    let referralsResp = await supabaseAdmin.from("referral").select("*");
 
-    console.log(referalsResp);
-
-    if (referalsResp.data?.length) {
-      for (let i = 0; i < referalsResp.data.length; i++) {
-        const r = referalsResp.data[i];
+    if (referralsResp.data?.length) {
+      for (let i = 0; i < referralsResp.data.length; i++) {
+        const r = referralsResp.data[i];
 
         let matches = transactions.filter(
           (t) => t.Grantee?.toLowerCase() === r?.track_name?.toLowerCase()

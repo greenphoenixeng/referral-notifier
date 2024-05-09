@@ -1,17 +1,17 @@
-import React from "react"
-import FeedFrom from "./FeedFrom"
+import React from "react";
+import FeedForm from "./FeedForm";
 
 export const metadata = {
   title: "Add Feed",
   description: "Add Feed",
-}
+};
 
 const page = () => {
   return (
     <main className="w-full">
-      <FeedFrom />
+      <FeedForm />
     </main>
-  )
-}
+  );
+};
 
-export default page
+export default page;

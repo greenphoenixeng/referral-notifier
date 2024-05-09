@@ -1,6 +1,7 @@
 "use client";
+import Card from "@/components/Card";
+import { Checkbox } from "@/components/ui/checkbox";
 import InputField from "@/components/ui/inputField";
-import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -10,12 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import TestButton from "@/components/TestButton";
-import Card from "@/components/Card";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { SearchCheck } from "lucide-react";
 
 interface Options {
   id: number;
