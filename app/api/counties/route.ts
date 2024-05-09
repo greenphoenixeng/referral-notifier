@@ -6,13 +6,16 @@ export async function GET() {
     let { data: counties, error } = await supabaseAdmin
       .from("county")
       .select("*");
-    const filterData = counties?.map((county) => {
-      return {
-        id: county.id,
-        name: county.name,
-        value: county.id,
-      };
-    });
+
+    const filterData = counties
+      ?.sort((a, b) => a?.name?.localeCompare(b?.name))
+      ?.map((county) => {
+        return {
+          id: county.id,
+          name: county.name,
+          value: county.id,
+        };
+      });
 
     return NextResponse.json(
       { success: true, data: filterData },

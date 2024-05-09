@@ -4,13 +4,16 @@ import supabaseAdmin from "@/utils/supabase-admin";
 export async function GET() {
   try {
     let { data: cities, error } = await supabaseAdmin.from("city").select("*");
-    const filterData = cities?.map((city) => {
-      return {
-        id: city.id,
-        name: city.name,
-        value: city.id,
-      };
-    });
+
+    const filterData = cities
+      ?.sort((a, b) => a?.name?.localeCompare(b?.name))
+      ?.map((city) => {
+        return {
+          id: city.id,
+          name: city.name,
+          value: city.id,
+        };
+      });
 
     return NextResponse.json(
       { success: true, data: filterData },
