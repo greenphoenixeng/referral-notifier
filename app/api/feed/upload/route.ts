@@ -46,11 +46,9 @@ export async function POST(request: Request) {
 
           await supabaseAdmin.from("matches").upsert(matchesData);
 
-          console.log('submitting email...');
+          console.log('submitting email to ' + referral?.email?.toLowerCase());
 
-          debugger;
-
-          const response = await fetch('/workspaces/fd65229c-ce57-4787-9fe6-f8fc1bf18d63/channels/d07adb03-1cd1-495f-b963-b18505a6b92c/messages', {
+          const response = await fetch('https://api.bird.com/workspaces/fd65229c-ce57-4787-9fe6-f8fc1bf18d63/channels/d07adb03-1cd1-495f-b963-b18505a6b92c/messages', {
             method: 'POST',
             headers: {
               "Authorization": "AccessKey mKzn3uh3uSZnPQeZGp71ZWvIvnxsw8cWMqTP",
@@ -60,7 +58,7 @@ export async function POST(request: Request) {
               "receiver": {
                 "contacts": [
                   {
-                    "identifierValue": referral?.email?.toLowerCase() // agent's emal
+                    "identifierValue": referral?.email?.toLowerCase()
                   }
                 ]
               },
@@ -70,13 +68,11 @@ export async function POST(request: Request) {
         });
         
         await response.json();
-        debugger;
-        
+
         }
       }
     }
     
-    debugger;
 
     return NextResponse.json(
       {
